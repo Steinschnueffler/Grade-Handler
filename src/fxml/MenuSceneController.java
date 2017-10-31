@@ -10,10 +10,13 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import schueler.Fach;
 import schueler.Schueler;
 
 public class MenuSceneController {
@@ -34,9 +37,12 @@ public class MenuSceneController {
     
     public static Scene getElement(Schueler s) {
     	try {
-			Parent root = FXMLLoader.load(MenuSceneController.class.getResource("MenuScene.fxml"));
-			Scene scene = new Scene(root);
-			return scene;
+    		FXMLLoader loader = new FXMLLoader(MenuSceneController.class.getResource("MenuScene.fxml"));
+			Parent root = loader.load();
+			MenuSceneController msc = loader.getController();
+			for(Fach f : s.getFaecher())
+				msc.box.getChildren().add(MenuButttonSceneController.getElement(f));
+			return new Scene(root);
 		} catch (IOException e) {
 			return new Scene(new AnchorPane());
 		}

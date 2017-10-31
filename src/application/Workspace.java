@@ -49,6 +49,12 @@ public class Workspace {
 		
 	}
 	
+	public void saveNewSchueler(Schueler s) throws SchuelerException {
+		File f = new File(schueler.getAbsolutePath() + "\\" + s.getName() + ".schueler");
+		if(f.exists()) throw new SchuelerException("Schueler name already exists: " + s.getName());
+		saveSchueler(s);
+	}
+	
 	public void saveSchueler(Schueler s) throws SchuelerException{
 		File f = new File(schueler.getAbsolutePath() + "\\" + s.getName() + ".schueler");
 		try {

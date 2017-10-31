@@ -18,6 +18,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import schueler.Schueler;
+import schueler.SchuelerException;
 
 public class LoginSceneController {
 
@@ -41,7 +43,19 @@ public class LoginSceneController {
 
     @FXML
     void loginButtonClicked(ActionEvent event) {
-    	
+    	Schueler s;
+    	try {
+			s = Main.workspace.loadSchueler(nameInput.getText().trim());
+		} catch (SchuelerException e) {
+			Main.showAlert("Can't load schueler: \n" + e.getLocalizedMessage(), e);
+			return;
+		}
+    	if(!s.passwordEquals(passwortInput.getText())) {
+    		Main.showAlert("Wrong password");
+    		return;
+    	}
+    	Main.stage.setTitle(s.getName() + " - Notenmanager");
+    	Main.stage.setScene(MenuSceneController.getElement(s));
     }
 
     @FXML

@@ -60,4 +60,11 @@ public class Schueler implements Serializable{
 		faecher.add(f);
 	}
 	
+	public Fach getFach(String name) {
+		for(Fach f : faecher)
+			if(f.getName().equalsIgnoreCase(name))
+				return f;
+		return null;
+	}
+	
 }

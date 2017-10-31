@@ -4,13 +4,20 @@
 
 package fxml;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import application.Main;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import schueler.Fach;
 
 public class MenuButttonSceneController {
 
@@ -70,6 +77,21 @@ public class MenuButttonSceneController {
         assert hintergrundBild != null : "fx:id=\"hintergrundBild\" was not injected: check your FXML file 'MenuButtonScene.fxml'.";
         assert fachName != null : "fx:id=\"fachName\" was not injected: check your FXML file 'MenuButtonScene.fxml'.";
 
+    }
+    
+    public static Node getElement(Fach f) {
+    	try {
+    		FXMLLoader loader = new FXMLLoader();
+			Parent root = loader.load();
+			MenuButttonSceneController mbsc = loader.getController();
+			mbsc.fachName.setText(f.getName());
+			return root;
+		} catch (IOException e) {
+			Main.workspace.writeException(e);
+			Main.showAlert("Can't create Menubutton", e);
+			Main.stage.setScene(LoginSceneController.getElement());
+			return new AnchorPane();
+		}
     }
 }
 

@@ -48,12 +48,20 @@ public class RegisterSceneController {
     void registerButtonClicked(ActionEvent event) {
     	String name = nameInput.getText().trim();
     	String password = passwortInput1.getText();
-    	if(name.length() == 0) return;
-    	if(!password.equals(passwortInput2.getText())) return;
+    	if(password.length() < 5) {
+    		Main.showAlert("Passwords is to short. \n It must be at least 5 chars.");
+    		return;
+    	}
+    	if(!password.equals(passwortInput2.getText())) {
+    		Main.showAlert("Passwords are not equal");
+    		passwortInput2.setText("");
+    		return;
+    	}
     	Schueler s = new Schueler(name, password);
     	try {
-			Main.workspace.saveSchueler(s);
+			Main.workspace.saveNewSchueler(s);
 		} catch (SchuelerException e) {
+			Main.showAlert("Can't save schueler: " +e.getLocalizedMessage(), e);
 			return;
 		}
     	Main.stage.setTitle(s.getName() + " - Notenmanager");

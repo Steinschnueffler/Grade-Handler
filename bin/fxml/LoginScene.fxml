@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="290.0" prefWidth="281.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.LoginSceneController">
+   <children>
+      <Label layoutX="91.0" layoutY="14.0" text="Login">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutY="62.0" prefHeight="169.0" prefWidth="281.0">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" text="Benutzername:" />
+            <TextField fx:id="nameInput" layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="250.0" />
+            <Label layoutX="14.0" layoutY="66.0" text="Passwort:" />
+            <PasswordField fx:id="passwortInput" layoutX="14.0" layoutY="83.0" prefHeight="25.0" prefWidth="250.0" />
+            <Button fx:id="loginButton" layoutX="79.0" layoutY="124.0" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="39.0" prefWidth="120.0" text="Login!">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+      </AnchorPane>
+      <HBox layoutX="8.0" layoutY="251.0" prefHeight="25.0" prefWidth="265.0">
+         <children>
+            <Label text="Noch keinen Account?  ">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="registerLink" onMouseClicked="#registerLinkClicked" text="Hier registrieren!" textFill="#4400ff" underline="true">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

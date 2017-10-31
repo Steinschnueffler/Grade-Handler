@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="281.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.RegisterSceneController">
+   <children>
+      <Label layoutX="39.0" layoutY="14.0" text="Registrieren">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutY="59.0" prefHeight="225.0" prefWidth="281.0">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" text="Benutzername:" />
+            <TextField fx:id="nameInput" layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="250.0" />
+            <Label layoutX="14.0" layoutY="66.0" text="Passwort:" />
+            <PasswordField fx:id="passwortInput1" layoutX="14.0" layoutY="83.0" prefHeight="25.0" prefWidth="250.0" />
+            <Button fx:id="registerButton" layoutX="73.0" layoutY="176.0" mnemonicParsing="false" onAction="#registerButtonClicked" prefHeight="39.0" prefWidth="133.0" text="Registrieren!">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Label layoutX="14.0" layoutY="121.0" text="Passwort wiederholen:" />
+            <PasswordField fx:id="passwortInput2" layoutX="14.0" layoutY="138.0" prefHeight="25.0" prefWidth="250.0" />
+         </children>
+      </AnchorPane>
+      <HBox layoutX="12.0" layoutY="301.0" prefHeight="25.0" prefWidth="265.0">
+         <children>
+            <Label text="Bereits einen Account?  ">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="loginLink" onMouseClicked="#loginLinkClicked" text="Hier anmelden!" textFill="#4400ff" underline="true">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

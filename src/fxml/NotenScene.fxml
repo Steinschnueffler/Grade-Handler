@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="445.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.NotenSceneController">
+   <children>
+      <AnchorPane layoutX="14.0" layoutY="71.0" prefHeight="100.0" prefWidth="305.0">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" text="Normale Noten:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="normalInput" layoutX="119.0" layoutY="12.0" onAction="#normalEingegeben" prefHeight="25.0" prefWidth="99.0" />
+            <Label fx:id="normalNoten" layoutX="14.0" layoutY="43.0" prefHeight="17.0" prefWidth="203.0" />
+            <Button fx:id="normalOk" layoutX="266.0" layoutY="12.0" mnemonicParsing="false" onAction="#normalOkPressed" text="OK!" />
+            <Label layoutX="14.0" layoutY="69.0" text="Einzel-Durchschnitt:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="263.0" layoutY="71.0">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Button fx:id="normalBearbeitenButton" layoutX="229.0" layoutY="39.0" mnemonicParsing="false" onAction="#normalBearbeitenButtonPressed" text="Bearbeiten" />
+            <Label fx:id="normalEinzelDurchschnitt" layoutX="230.0" layoutY="67.0" prefHeight="25.0" prefWidth="73.0" text="0.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="14.0" layoutY="176.0" prefHeight="100.0" prefWidth="305.0">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" text="Kurzarbeiten:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="kurzarbeitenInput" layoutX="119.0" layoutY="12.0" onAction="#kurzarbeitenEingegeben" prefHeight="25.0" prefWidth="99.0" />
+            <Label fx:id="kurzarbeitenNoten" layoutX="14.0" layoutY="43.0" prefHeight="17.0" prefWidth="203.0" />
+            <Button fx:id="kurzarbeitenOk" layoutX="266.0" layoutY="12.0" mnemonicParsing="false" onAction="#kurzarbeitenOkPressed" text="OK!" />
+            <Label layoutX="14.0" layoutY="69.0" text="Einzel-Durchschnitt:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="263.0" layoutY="71.0">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Button fx:id="kurzarbeitenBearbeitenButton" layoutX="229.0" layoutY="39.0" mnemonicParsing="false" onAction="#kurzarbeitenBearbeitenButtonPressed" text="Bearbeiten" />
+            <Label fx:id="kurzarbeitenEinzelDurchschnitt" layoutX="230.0" layoutY="67.0" prefHeight="25.0" prefWidth="73.0" text="0.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="14.0" layoutY="281.0" prefHeight="100.0" prefWidth="305.0">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" text="Schulaufgaben:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="schulaufgabenInput" layoutX="119.0" layoutY="12.0" onAction="#schulaufgabenEingegeben" prefHeight="25.0" prefWidth="99.0" />
+            <Label fx:id="schulaufgabenNoten" layoutX="14.0" layoutY="43.0" prefHeight="17.0" prefWidth="203.0" />
+            <Button fx:id="schulaufgabenOk" layoutX="266.0" layoutY="12.0" mnemonicParsing="false" onAction="#schulaufgabenOkPressed" text="OK!" />
+            <Label layoutX="14.0" layoutY="69.0" text="Einzel-Durchschnitt:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="263.0" layoutY="71.0">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Button fx:id="schulaufgabenBearbeitenButton" layoutX="229.0" layoutY="39.0" mnemonicParsing="false" onAction="#schulaufgabenBearbeitenButtonPressed" text="Bearbeiten" />
+            <Label fx:id="shulaufgabenEinzelDurchschnitt" layoutX="229.0" layoutY="67.0" prefHeight="25.0" prefWidth="73.0" text="0.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="42.0" layoutY="396.0" prefHeight="42.0" prefWidth="250.0">
+         <children>
+            <Label layoutX="37.0" layoutY="-2.0" text="Gesamt:">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <Label fx:id="geasmtDurchschnitt" layoutX="138.0" layoutY="-1.0" prefHeight="36.0" prefWidth="82.0" text="0.00">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Label fx:id="fachName" layoutX="108.0" layoutY="14.0" text="FachName">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

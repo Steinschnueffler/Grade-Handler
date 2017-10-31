@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.embed.swing.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="275.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.MenuButttonSceneController">
+   <children>
+      <ImageView fx:id="hintergrundBild" fitHeight="50.0" fitWidth="275.0" onMouseExited="#mouseExited" onMouseMoved="#mouseOver" onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="fachName" layoutX="14.0" layoutY="8.0" onMouseExited="#mouseExited" onMouseMoved="#mouseOver" onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" prefHeight="35.0" prefWidth="200.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="einstellungenButton" fitHeight="45.0" fitWidth="45.0" layoutX="211.0" layoutY="3.0" onMouseExited="#einstellungenMouseExited" onMouseMoved="#einstellungenMouseOver" onMousePressed="#einstellungenMousePressed" onMouseReleased="#einstellungenMouseReleased" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</AnchorPane>

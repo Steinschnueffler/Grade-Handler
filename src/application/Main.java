@@ -1,20 +1,23 @@
 package application;
 	
+import fxml.LoginSceneController;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-
 
 public class Main extends Application {
+	
+	public static Stage stage;
+	public static Workspace workspace = Workspace.getDefault();
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root,400,400);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setScene(scene);
-			primaryStage.show();
+			Main.stage = primaryStage;
+			Main.stage.setScene(LoginSceneController.getElement());
+			Main.stage.setResizable(false);
+			Main.stage.centerOnScreen();
+			Main.stage.setTitle("Login - Notenmanager");
+			Main.stage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

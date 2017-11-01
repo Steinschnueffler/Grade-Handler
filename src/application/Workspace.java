@@ -6,14 +6,22 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import library.TitledMessage;
 import schueler.Schueler;
 import schueler.SchuelerException;
+import standartAssets.PackLoader;
 
 public class Workspace {
 
@@ -25,6 +33,11 @@ public class Workspace {
 	private final File errors;
 	private final File messages;
 	private final File versions;
+	private final File assets;
+	
+	public Image menuButton_hintergrund = new WritableImage(1, 1);
+	public Image menuButton_hintergrund_ausgewählt = new WritableImage(1, 1);
+	public Image menuButton_hintergrund_gedrückt = new WritableImage(1, 1);
 	
 	public Workspace(String path) {
 		root = new File(path);
@@ -44,9 +57,20 @@ public class Workspace {
 		messages = new File(root.getAbsolutePath() + "\\messages");
 		messages.mkdirs();
 		
+		assets = new File(root.getAbsolutePath() +"\\assets");
+		assets.mkdirs();
+		
 		versions = new File(root.getAbsolutePath() + "\\versions");
 		versions.mkdirs();
 		
+		
+		PackLoader.loadStandart(assets);
+		
+		try {
+			loadTexturePack(new ZipFile(assets.getAbsolutePath() + "\\standart-Pack.zip", Charset.forName("ISO-8859-1")));
+		} catch (IOException e) {
+			writeException(e);
+		}
 	}
 	
 	public void saveNewSchueler(Schueler s) throws SchuelerException {
@@ -104,7 +128,30 @@ public class Workspace {
 		}
 	}
 
-
+	public void loadTexturePack(ZipFile zf) {
+		Enumeration<? extends ZipEntry> enu = zf.entries();
+		while(enu.hasMoreElements()) {
+			ZipEntry ze = enu.nextElement();
+			InputStream is;
+			try {
+				is = zf.getInputStream(ze);
+			} catch (IOException e) {
+				writeException(e);
+				continue;
+			}
+			
+			System.out.println(ze.getName());
+			
+			if(ze.getName().equalsIgnoreCase("menuButton_hintergrund.png")) {
+				menuButton_hintergrund = new Image(is);
+			}else if(ze.getName().equalsIgnoreCase("menuButton_hintergrund_ausgewaehlt.png")) {
+				menuButton_hintergrund_ausgewählt = new Image(is);
+			}else if(ze.getName().equalsIgnoreCase("menuButton_hintergrund_gedrueckt.png")) {
+				menuButton_hintergrund_gedrückt = new Image(is);
+			}
+		}
+	}
+	
 	public void writeException(Throwable th){
 		writeThrowable(th, new File(exceptions.getAbsolutePath() + "\\" + getActualTime() + ".exception"));
 	}

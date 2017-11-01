@@ -38,18 +38,23 @@ public class MenuButttonSceneController {
 
     @FXML
     void mouseExited(MouseEvent event) {
+    	hintergrundBild.setImage(Main.workspace.menuButton_hintergrund);
     }
 
     @FXML
     void mouseOver(MouseEvent event) {
+    	hintergrundBild.setImage(Main.workspace.menuButton_hintergrund_ausgewählt);
     }
 
     @FXML
     void mousePressed(MouseEvent event) {
+    	hintergrundBild.setImage(Main.workspace.menuButton_hintergrund_gedrückt);
     }
 
     @FXML
     void mouseReleased(MouseEvent event) {
+    	if(hintergrundBild.isHover())
+    		hintergrundBild.setImage(Main.workspace.menuButton_hintergrund_ausgewählt);
     }
 
     @FXML
@@ -81,10 +86,11 @@ public class MenuButttonSceneController {
     
     public static Node getElement(Fach f) {
     	try {
-    		FXMLLoader loader = new FXMLLoader();
+    		FXMLLoader loader = new FXMLLoader(MenuButttonSceneController.class.getResource("MenuButtonScene.fxml"));
 			Parent root = loader.load();
 			MenuButttonSceneController mbsc = loader.getController();
 			mbsc.fachName.setText(f.getName());
+			mbsc.hintergrundBild.setImage(Main.workspace.menuButton_hintergrund);
 			return root;
 		} catch (IOException e) {
 			Main.workspace.writeException(e);

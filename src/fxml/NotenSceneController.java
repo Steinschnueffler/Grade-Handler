@@ -4,14 +4,20 @@
 
 package fxml;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import application.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import schueler.Fach;
 
 public class NotenSceneController {
 
@@ -136,6 +142,22 @@ public class NotenSceneController {
         assert normalEinzelDurchschnitt != null : "fx:id=\"normalEinzelDurchschnitt\" was not injected: check your FXML file 'NotenScene.fxml'.";
         assert kurzarbeitenNoten != null : "fx:id=\"kurzarbeitenNoten\" was not injected: check your FXML file 'NotenScene.fxml'.";
         assert shulaufgabenEinzelDurchschnitt != null : "fx:id=\"shulaufgabenEinzelDurchschnitt\" was not injected: check your FXML file 'NotenScene.fxml'.";
-
+    }
+    
+    public static Scene getElement(Fach f) {
+    	try {
+    		FXMLLoader loader = new FXMLLoader(NotenSceneController.class.getResource("NotenScene.fxml"));
+			Parent root = loader.load();
+			NotenSceneController nsc = loader.getController();
+			nsc.fachName.setText(f.getName());
+			nsc.geasmtDurchschnitt.setText("" +f.gesamtDurchschnitt());
+			nsc.normalEinzelDurchschnitt.setText("" +f.normaleDurchschnitt());
+			nsc.shulaufgabenEinzelDurchschnitt.setText("" +f.schulaufgabenDurchschnitt());
+			return new Scene(root);
+		} catch (IOException e) {
+			Main.workspace.writeException(e);
+			Main.showAlert("Can't load Window", e);
+			return null;
+		}
     }
 }

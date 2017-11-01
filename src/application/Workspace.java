@@ -39,6 +39,9 @@ public class Workspace {
 	public Image menuButton_hintergrund_ausgewählt = new WritableImage(1, 1);
 	public Image menuButton_hintergrund_gedrückt = new WritableImage(1, 1);
 	
+	public Image menuButton_einstellungen = new WritableImage(1, 1);
+	public Image menuButton_einstellungen_ausgewählt = new WritableImage(1, 1);
+	
 	public Workspace(String path) {
 		root = new File(path);
 		
@@ -139,9 +142,7 @@ public class Workspace {
 				writeException(e);
 				continue;
 			}
-			
-			System.out.println(ze.getName());
-			
+						
 			if(ze.getName().equalsIgnoreCase("menuButton_hintergrund.png")) {
 				menuButton_hintergrund = new Image(is);
 			}else if(ze.getName().equalsIgnoreCase("menuButton_hintergrund_ausgewaehlt.png")) {

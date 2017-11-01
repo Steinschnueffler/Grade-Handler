@@ -17,10 +17,13 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import schueler.Fach;
 
 public class MenuButttonSceneController {
 
+	private Fach f;
+	
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
 
@@ -48,6 +51,10 @@ public class MenuButttonSceneController {
 
     @FXML
     void mousePressed(MouseEvent event) {
+    	Stage s = new Stage();
+    	s.setScene(NotenSceneController.getElement(f));
+    	s.initOwner(Main.stage);
+    	s.show();
     	hintergrundBild.setImage(Main.workspace.menuButton_hintergrund_gedrückt);
     }
 
@@ -89,6 +96,7 @@ public class MenuButttonSceneController {
     		FXMLLoader loader = new FXMLLoader(MenuButttonSceneController.class.getResource("MenuButtonScene.fxml"));
 			Parent root = loader.load();
 			MenuButttonSceneController mbsc = loader.getController();
+			mbsc.f = f;
 			mbsc.fachName.setText(f.getName());
 			mbsc.hintergrundBild.setImage(Main.workspace.menuButton_hintergrund);
 			return root;

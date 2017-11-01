@@ -103,7 +103,7 @@ public class Workspace {
 	
 	public Schueler loadSchueler(String name) throws SchuelerException {
 		File f = new File(schueler.getAbsolutePath() + "\\" + name + ".schueler");
-		if(!f.exists()) throw new SchuelerException("Schueler doesn't exsists: " + f.getAbsolutePath());
+		if(!f.exists()) throw new SchuelerException("Schueler doesn't exsist: " + f.getAbsolutePath());
 		try {
 			FileInputStream fis = new FileInputStream(f);
 			ObjectInputStream ois = new ObjectInputStream(fis);

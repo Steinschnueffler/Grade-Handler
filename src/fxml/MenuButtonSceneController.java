@@ -23,7 +23,7 @@ import schueler.SchuelerException;
 
 public class MenuButtonSceneController {
 
-	private Fach f;
+	private Stage notenStage = null;
 	
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -52,21 +52,9 @@ public class MenuButtonSceneController {
 
     @FXML
     void mousePressed(MouseEvent event) {
-    	Stage s = new Stage();
-    	s.setScene(NotenSceneController.getElement(f));
-    	s.initOwner(Main.stage);
-    	s.sizeToScene();
-    	s.setResizable(false);
-    	s.setTitle(f.getName() + " - " +Main.schueler.getName() + " - Notenmanager");
-    	s.setOnCloseRequest(e -> {
-    		try {
-				Main.workspace.saveSchueler();
-			} catch (SchuelerException ex) {
-				Main.workspace.writeException(ex);
-				Main.showAlert("Can't save schueler", ex);
-			}
-    	});
-    	s.show();
+    	if(notenStage.isShowing()) notenStage.toFront();
+    	else notenStage.show();
+    	notenStage.centerOnScreen();
     	hintergrundBild.setImage(Main.workspace.menuButton_hintergrund_gedrückt);
     }
 
@@ -108,9 +96,24 @@ public class MenuButtonSceneController {
     		FXMLLoader loader = new FXMLLoader(MenuButtonSceneController.class.getResource("MenuButtonScene.fxml"));
 			Parent root = loader.load();
 			MenuButtonSceneController mbsc = loader.getController();
-			mbsc.f = f;
 			mbsc.fachName.setText(f.getName());
 			mbsc.hintergrundBild.setImage(Main.workspace.menuButton_hintergrund);
+			
+			mbsc.notenStage = new Stage();
+			mbsc.notenStage.setScene(NotenSceneController.getElement(f));
+			mbsc.notenStage.initOwner(Main.stage);
+			mbsc.notenStage.sizeToScene();
+			mbsc.notenStage.setResizable(false);
+			mbsc.notenStage.setTitle(f.getName() + " - " +Main.schueler.getName() + " - Notenmanager");
+			mbsc.notenStage.setOnCloseRequest(e -> {
+	    		try {
+					Main.workspace.saveSchueler();
+				} catch (SchuelerException ex) {
+					Main.workspace.writeException(ex);
+					Main.showAlert("Can't save schueler", ex);
+				}
+	    	});
+		
 			return root;
 		} catch (IOException e) {
 			Main.workspace.writeException(e);

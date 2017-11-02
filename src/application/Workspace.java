@@ -1,5 +1,7 @@
 package application;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,6 +20,7 @@ import java.util.zip.ZipFile;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
+import library.Cryptograph;
 import library.TitledMessage;
 import schueler.Schueler;
 import schueler.SchuelerException;
@@ -87,11 +90,17 @@ public class Workspace {
 		try {
 			f.createNewFile();
 			
-			FileOutputStream fos = new FileOutputStream(f);
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(bos);
 			oos.writeObject(Main.schueler);
 			oos.flush();
+			bos.flush();
+			byte[] coded = Cryptograph.code(bos.toByteArray());
 			oos.close();
+			bos.close();
+			
+			FileOutputStream fos = new FileOutputStream(f);
+			fos.write(coded);
 			fos.flush();
 			fos.close();
 		}catch(Exception e) {
@@ -105,11 +114,17 @@ public class Workspace {
 		if(!f.exists()) throw new SchuelerException("Schueler doesn't exsist: " + f.getAbsolutePath());
 		try {
 			FileInputStream fis = new FileInputStream(f);
-			ObjectInputStream ois = new ObjectInputStream(fis);
+			byte[] coded = fis.readAllBytes();
+			fis.close();
+			
+			ByteArrayInputStream bais = new ByteArrayInputStream(Cryptograph.deCode(coded));
+			ObjectInputStream ois = new ObjectInputStream(bais);
 			Schueler s = (Schueler) ois.readObject();
 			ois.close();
-			fis.close();
+			bais.close();
+			
 			return s;
+			
 		}catch(Exception e) {
 			writeException(e);
 			throw new SchuelerException("Failed to load " + f.getAbsolutePath());

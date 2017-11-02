@@ -76,21 +76,20 @@ public class Workspace {
 		}
 	}
 	
-	public void saveNewSchueler(Schueler s) throws SchuelerException {
-		File f = new File(schueler.getAbsolutePath() + "\\" + s.getName() + ".schueler");
-		if(f.exists()) throw new SchuelerException("Schueler name already exists: " + s.getName());
-		saveSchueler(s);
+	public void saveNewSchueler() throws SchuelerException {
+		File f = new File(schueler.getAbsolutePath() + "\\" + Main.schueler.getName() + ".schueler");
+		if(f.exists()) throw new SchuelerException("Schueler name already exists: " + Main.schueler.getName());
+		saveSchueler();
 	}
 	
-	public void saveSchueler(Schueler s) throws SchuelerException{
-		File f = new File(schueler.getAbsolutePath() + "\\" + s.getName() + ".schueler");
+	public void saveSchueler() throws SchuelerException{
+		File f = new File(schueler.getAbsolutePath() + "\\" + Main.schueler.getName() + ".schueler");
 		try {
-			if(f.exists()) f.delete();
 			f.createNewFile();
 			
 			FileOutputStream fos = new FileOutputStream(f);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(s);
+			oos.writeObject(Main.schueler);
 			oos.flush();
 			oos.close();
 			fos.flush();

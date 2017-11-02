@@ -9,11 +9,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+import schueler.Schueler;
 
 public class Main extends Application {
 	
 	public static Stage stage;
 	public static Workspace workspace = Workspace.getDefault();
+	public static Schueler schueler;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -28,6 +30,7 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 	}
+	
 	public static void main(String[] args) {
 		launch(args);
 	}

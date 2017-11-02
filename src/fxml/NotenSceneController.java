@@ -17,7 +17,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import schueler.Fach;
+import schueler.SchuelerException;
 
 public class NotenSceneController {
 	
@@ -76,14 +78,24 @@ public class NotenSceneController {
 	    
 	    @FXML
 	    void speicherButtonGedrückt(ActionEvent event) {
+	    	try {
+				Main.workspace.saveSchueler();
+			} catch (SchuelerException e) {
+				Main.workspace.writeException(e);
+				Main.showAlert("Can't save Schueler", e);
+			}
 	    }
 	    
 	    @FXML
-	    void normalEingegeben(ActionEvent event) {
-	    	System.out.println(event);
+	    void normalEingegeben(KeyEvent event) {
 	    	update();
 	    }
 
+	    @FXML
+	    void normalEnterGedrückt(ActionEvent event) {
+	    	if(!normalOk.isDisabled()) normalOkPressed(event);
+	    }
+	    
 	    @FXML
 	    void normalOkPressed(ActionEvent event) {
 	    	try {
@@ -95,6 +107,7 @@ public class NotenSceneController {
 	    				+ "\n make sure that it is a normal Number.",
 	    				e);
 	    	}
+	    	normalInput.setText("");
 	    	update();
 	    }
 
@@ -106,7 +119,7 @@ public class NotenSceneController {
 	    @FXML
 	    void kurzarbeitenOkPressed(ActionEvent event) {
 	    	try {
-	    		double d = Double.parseDouble(normalInput.getText().trim());
+	    		double d = Double.parseDouble(kurzarbeitenInput.getText().trim());
 	    		fach.addNormal(d);
 	    		fach.addNormal(d);
 	    	}catch(Exception e) {
@@ -116,23 +129,34 @@ public class NotenSceneController {
 	    				+ "\n make sure that it is a normal Number.",
 	    				e);
 	    	}
+	    	kurzarbeitenInput.setText("");
 	    	update();
 	    }
 
 	    @FXML
-	    void kurzarbeitenEingegeben(ActionEvent event) {
+	    void kurzarbeitenEingegeben(KeyEvent event) {
 	    	update();
 	    }
 
 	    @FXML
-	    void schulaufgabenEingegeben(ActionEvent event) {
+	    void kurzarbeitenEnterGedrückt(ActionEvent event) {
+	    	if(!kurzarbeitenOk.isDisabled()) kurzarbeitenOkPressed(event);
+	    }
+	    
+	    @FXML
+	    void schulaufgabenEingegeben(KeyEvent event) {
 	    	update();
 	    }
 
+	    @FXML
+	    void schulaufgabenEnterGedrückt(ActionEvent event) {
+	    	if(!schulaufgabenOk.isDisabled()) schulaufgabenOkPressed(event);
+	    }
+	    
 	    @FXML
 	    void schulaufgabenOkPressed(ActionEvent event) {
 	    	try {
-	    		fach.addSchulaufgabe(Double.parseDouble(normalInput.getText().trim()));
+	    		fach.addSchulaufgabe(Double.parseDouble(schulaufgabenInput.getText().trim()));
 	    	}catch(Exception e) {
 	    		Main.workspace.writeException(e);
 	    		Main.showAlert("Cant save grade: " 
@@ -140,6 +164,7 @@ public class NotenSceneController {
 	    				+ "\n make sure that it is a normal Number.",
 	    				e);
 	    	}
+	    	schulaufgabenInput.setText("");
 	    	update();
 	    }
 

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import application.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,7 +16,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import schueler.Fach;
-import schueler.Schueler;
 
 public class MenuSceneController {
 
@@ -33,13 +33,13 @@ public class MenuSceneController {
         assert box != null : "fx:id=\"box\" was not injected: check your FXML file 'MenuScene.fxml'.";
     }
     
-    public static Scene getElement(Schueler s) {
+    public static Scene getElement() {
     	try {
     		FXMLLoader loader = new FXMLLoader(MenuSceneController.class.getResource("MenuScene.fxml"));
 			Parent root = loader.load();
 			MenuSceneController msc = loader.getController();
-			for(Fach f : s.getFaecher())
-				msc.box.getChildren().add(MenuButttonSceneController.getElement(f));
+			for(Fach f : Main.schueler.getFaecher())
+				msc.box.getChildren().add(MenuButtonSceneController.getElement(f));
 			return new Scene(root);
 		} catch (IOException e) {
 			return new Scene(new AnchorPane());

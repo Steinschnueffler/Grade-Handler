@@ -19,8 +19,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import schueler.Fach;
+import schueler.SchuelerException;
 
-public class MenuButttonSceneController {
+public class MenuButtonSceneController {
 
 	private Fach f;
 	
@@ -54,6 +55,17 @@ public class MenuButttonSceneController {
     	Stage s = new Stage();
     	s.setScene(NotenSceneController.getElement(f));
     	s.initOwner(Main.stage);
+    	s.sizeToScene();
+    	s.setResizable(false);
+    	s.setTitle(f.getName() + " - " +Main.schueler.getName() + " - Notenmanager");
+    	s.setOnCloseRequest(e -> {
+    		try {
+				Main.workspace.saveSchueler();
+			} catch (SchuelerException ex) {
+				Main.workspace.writeException(ex);
+				Main.showAlert("Can't save schueler", ex);
+			}
+    	});
     	s.show();
     	hintergrundBild.setImage(Main.workspace.menuButton_hintergrund_gedrückt);
     }
@@ -93,9 +105,9 @@ public class MenuButttonSceneController {
     
     public static Node getElement(Fach f) {
     	try {
-    		FXMLLoader loader = new FXMLLoader(MenuButttonSceneController.class.getResource("MenuButtonScene.fxml"));
+    		FXMLLoader loader = new FXMLLoader(MenuButtonSceneController.class.getResource("MenuButtonScene.fxml"));
 			Parent root = loader.load();
-			MenuButttonSceneController mbsc = loader.getController();
+			MenuButtonSceneController mbsc = loader.getController();
 			mbsc.f = f;
 			mbsc.fachName.setText(f.getName());
 			mbsc.hintergrundBild.setImage(Main.workspace.menuButton_hintergrund);

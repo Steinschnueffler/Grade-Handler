@@ -44,6 +44,11 @@ public class RegisterSceneController {
     @FXML // fx:id="nameInput"
     private TextField nameInput; // Value injected by FXMLLoader
 
+    @FXML 
+    void enterGedrückt(ActionEvent event) {
+    	registerButtonClicked(event);
+    }
+    
     @FXML
     void registerButtonClicked(ActionEvent event) {
     	String name = nameInput.getText().trim();
@@ -57,15 +62,15 @@ public class RegisterSceneController {
     		passwortInput2.setText("");
     		return;
     	}
-    	Schueler s = new Schueler(name, password);
+    	Main.schueler = new Schueler(name, password);
     	try {
-			Main.workspace.saveNewSchueler(s);
+			Main.workspace.saveNewSchueler();
 		} catch (SchuelerException e) {
 			Main.showAlert("Can't save schueler: " +e.getLocalizedMessage(), e);
 			return;
 		}
-    	Main.stage.setTitle(s.getName() + " - Notenmanager");
-    	Main.stage.setScene(MenuSceneController.getElement(s));
+    	Main.stage.setTitle(Main.schueler.getName() + " - Notenmanager");
+    	Main.stage.setScene(MenuSceneController.getElement());
     }
 
     @FXML

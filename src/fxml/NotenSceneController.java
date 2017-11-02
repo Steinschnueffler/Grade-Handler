@@ -80,9 +80,9 @@ public class NotenSceneController {
 	    void speicherButtonGedrückt(ActionEvent event) {
 	    	try {
 				Main.workspace.saveSchueler();
-			} catch (SchuelerException e) {
+			} catch (Exception e) {
 				Main.workspace.writeException(e);
-				Main.showAlert("Can't save Schueler", e);
+				Main.showAlert("Can't save Schueler \n if you aren't logged in, please do this", e);
 			}
 	    }
 	    

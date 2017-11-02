@@ -53,6 +53,10 @@ public class RegisterSceneController {
     void registerButtonClicked(ActionEvent event) {
     	String name = nameInput.getText().trim();
     	String password = passwortInput1.getText();
+    	if(name.length() == 0) {
+    		Main.showAlert("Name is to short. \n It must be at least 1 character.");
+    		return;
+    	}
     	if(password.length() < 5) {
     		Main.showAlert("Passwords is to short. \n It must be at least 5 chars.");
     		return;

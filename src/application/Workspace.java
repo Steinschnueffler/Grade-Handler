@@ -44,6 +44,7 @@ public class Workspace {
 	
 	public Image menuButton_einstellungen = new WritableImage(1, 1);
 	public Image menuButton_einstellungen_ausgewählt = new WritableImage(1, 1);
+	public Image menuButton_einstellungen_gedrückt = new WritableImage(1, 1);
 	
 	public Workspace(String path) {
 		root = new File(path);

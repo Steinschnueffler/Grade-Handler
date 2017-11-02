@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import schueler.Fach;
 import schueler.SchuelerException;
 
 public class LoginSceneController {
@@ -47,6 +48,12 @@ public class LoginSceneController {
     
     @FXML
     void loginButtonClicked(ActionEvent event) {
+    	if(nameInput.getText().trim().length() == 0) {
+    		Main.stage.setScene(NotenSceneController.getElement(new Fach("Nicht eingeloggt")));
+    		Main.stage.setTitle("Nicht eingeloggt - Notenmanager");
+    		Main.schueler = null;
+    		return;
+    	}
     	try {
 			Main.schueler = Main.workspace.loadSchueler(nameInput.getText().trim());
 		} catch (SchuelerException e) {

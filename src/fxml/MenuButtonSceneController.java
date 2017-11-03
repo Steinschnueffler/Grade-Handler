@@ -15,6 +15,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -62,6 +64,12 @@ public class MenuButtonSceneController {
     void mouseReleased(MouseEvent event) {
     	if(hintergrundBild.isHover())
     		hintergrundBild.setImage(Main.workspace.menuButton_hintergrund_ausgewählt);
+    }
+    
+    @FXML
+    void keyPressed(KeyEvent event) {
+    	if(event.getCode().equals(KeyCode.ENTER))
+    		mousePressed(null);
     }
 
     @FXML

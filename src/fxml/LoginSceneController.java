@@ -40,9 +40,14 @@ public class LoginSceneController {
 
     @FXML // fx:id="registerLink"
     private Label registerLink; // Value injected by FXMLLoader
-
+    
     @FXML
-    void enterGedrückt(ActionEvent event) {
+    void enter1Gedrückt(ActionEvent event) {
+    	passwortInput.requestFocus();
+    }
+    
+    @FXML
+    void enter2Gedrückt(ActionEvent event) {
     	loginButtonClicked(event);
     }
     

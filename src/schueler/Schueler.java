@@ -3,6 +3,8 @@ package schueler;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import library.Cryptograph;
+
 public class Schueler implements Serializable{
 	private static final long serialVersionUID = -5634223549032975671L;
 	
@@ -12,7 +14,7 @@ public class Schueler implements Serializable{
 	
 	public Schueler(String name, String password) {
 		this.name = name;
-		this.password = password;
+		this.password = Cryptograph.generateHash(password);
 		faecher.add(new Fach("Mathe"));
 		faecher.add(new Fach("Deutsch"));
 		faecher.add(new Fach("Englisch"));
@@ -43,12 +45,12 @@ public class Schueler implements Serializable{
 	}
 	
 	public boolean passwordEquals(String anotherPassword) {
-		return password.equals(anotherPassword);
+		return password.equals(Cryptograph.generateHash(anotherPassword));
 	}
 	
 	public boolean setPassword(String newPassword) {
 		if(passwordEquals(newPassword)) return false;
-		this.password = newPassword;
+		this.password = Cryptograph.generateHash(newPassword);
 		return true;
 	}
 	

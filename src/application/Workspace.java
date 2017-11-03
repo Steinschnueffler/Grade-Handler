@@ -166,6 +166,7 @@ public class Workspace {
 				menuButton_hintergrund_gedrückt = new Image(is);
 			}
 		}
+
 	}
 	
 	public void writeException(Throwable th){

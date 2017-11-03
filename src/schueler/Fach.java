@@ -44,6 +44,9 @@ public class Fach implements Serializable{
 	}
 	
 	public double gesamtDurchschnitt() {
+		if(schulaufgaben.size() == 0 && normale.size() == 0) return 0;
+		if(schulaufgaben.size() == 0) return normaleDurchschnitt();
+		if(normale.size() == 0) return schulaufgabenDurchschnitt();
 		ArrayList<Double> gesamt = new ArrayList<>();
 		double normal = normaleDurchschnitt();
 		gesamt.add(normal);

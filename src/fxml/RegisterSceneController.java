@@ -45,7 +45,17 @@ public class RegisterSceneController {
     private TextField nameInput; // Value injected by FXMLLoader
 
     @FXML 
-    void enterGedrückt(ActionEvent event) {
+    void enter1Gedrückt(ActionEvent event) {
+    	passwortInput1.requestFocus();
+    }
+    
+    @FXML 
+    void enter2Gedrückt(ActionEvent event) {
+    	passwortInput2.requestFocus();
+    }
+    
+    @FXML 
+    void enter3Gedrückt(ActionEvent event) {
     	registerButtonClicked(event);
     }
     

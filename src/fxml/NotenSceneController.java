@@ -71,19 +71,6 @@ public class NotenSceneController {
 
 	    @FXML // fx:id="shulaufgabenEinzelDurchschnitt"
 	    private Label shulaufgabenEinzelDurchschnitt; // Value injected by FXMLLoader
-
-	    @FXML //fx:id ="speichernButton"
-	    private Button speichernButton;
-	    
-	    @FXML
-	    void speicherButtonGedrückt(ActionEvent event) {
-	    	try {
-				Main.workspace.saveSchueler();
-			} catch (Exception e) {
-				Main.workspace.writeException(e);
-				Main.showAlert("Can't save Schueler \n if you aren't logged in, please do this", e);
-			}
-	    }
 	    
 	    @FXML
 	    void normalEingegeben(KeyEvent event) {
@@ -107,6 +94,7 @@ public class NotenSceneController {
 	    				e);
 	    	}
 	    	normalInput.setText("");
+	    	normalInput.requestFocus();
 	    	update();
 	    }
 
@@ -129,6 +117,7 @@ public class NotenSceneController {
 	    				e);
 	    	}
 	    	kurzarbeitenInput.setText("");
+	    	kurzarbeitenInput.requestFocus();
 	    	update();
 	    }
 
@@ -164,6 +153,7 @@ public class NotenSceneController {
 	    				e);
 	    	}
 	    	schulaufgabenInput.setText("");
+	    	schulaufgabenInput.requestFocus();
 	    	update();
 	    }
 
@@ -225,6 +215,9 @@ public class NotenSceneController {
 			nsc.geasmtDurchschnitt.setText("" +f.gesamtDurchschnitt());
 			nsc.normalEinzelDurchschnitt.setText("" +f.normaleDurchschnitt());
 			nsc.shulaufgabenEinzelDurchschnitt.setText("" +f.schulaufgabenDurchschnitt());
+			nsc.normalInput.setFocusTraversable(false);
+			nsc.kurzarbeitenInput.setFocusTraversable(false);
+			nsc.schulaufgabenInput.setFocusTraversable(false);
 			return new Scene(root);
 		} catch (IOException e) {
 			Main.workspace.writeException(e);

@@ -94,12 +94,7 @@
                   <Font size="25.0" />
                </font>
             </Label>
-            <Button fx:id="speichernButton" layoutX="197.0" layoutY="3.0" mnemonicParsing="false" onAction="#speicherButtonGedrückt" text="Speichern">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </Button>
-         </children>
+		 </children>
       </AnchorPane>
    </children>
 </AnchorPane>

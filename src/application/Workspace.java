@@ -2,21 +2,18 @@ package application;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
-import java.nio.charset.Charset;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
-import java.util.Enumeration;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
@@ -28,15 +25,18 @@ import standartAssets.PackLoader;
 
 public class Workspace {
 
-	private final File root;
+	public static final FileSystem FILE_SYSTEM = FileSystems.getDefault();
 	
-	private final File schueler;
-	private final File standartPack;
-	private final File exceptions;
-	private final File errors;
-	private final File messages;
-	private final File versions;
-	private final File assets;
+	private final Path root;
+	
+	private final Path schueler;
+	private final Path exceptions;
+	private final Path errors;
+	private final Path messages;
+	private final Path versions;
+	private final Path assets;
+	
+	private final Path standardPackage;
 	
 	public Image menuButton_hintergrund = new WritableImage(1, 1);
 	public Image menuButton_hintergrund_ausgewählt = new WritableImage(1, 1);
@@ -47,78 +47,82 @@ public class Workspace {
 	public Image menuButton_einstellungen_gedrückt = new WritableImage(1, 1);
 	
 	public Workspace(String path) {
-		root = new File(path);
+		root = FILE_SYSTEM.getPath(path);
+		Path logs = root.resolve("logs");		
 		
-		schueler = new File(root.getAbsolutePath() + "\\schueler");
-		schueler.mkdirs();
-		
-		standartPack = new File(root.getAbsolutePath() + "\\schueler");
-		standartPack.mkdirs();
-		
-		exceptions = new File(root.getAbsolutePath() + "\\logs\\exceptions");
-		exceptions.mkdirs();
-		
-		errors = new File(root.getAbsolutePath() + "\\logs\\errors");
-		errors.mkdirs();
-		
-		messages = new File(root.getAbsolutePath() + "\\messages");
-		messages.mkdirs();
-		
-		assets = new File(root.getAbsolutePath() +"\\assets");
-		assets.mkdirs();
-		
-		versions = new File(root.getAbsolutePath() + "\\versions");
-		versions.mkdirs();
-		
-		
-		PackLoader.loadStandart(assets);
+		schueler = root.resolve("schueler");		
+		exceptions = logs.resolve("exceptions");		
+		errors = logs.resolve("errors");		
+		messages = root.resolve("messages");		
+		assets = root.resolve("assets");		
+		versions = root.resolve("versions");
+				
+		standardPackage = assets.resolve("standardPack.zip");
 		
 		try {
-			loadTexturePack(new ZipFile(assets.getAbsolutePath() + "\\standart-Pack.zip", Charset.forName("ISO-8859-1")));
+			Files.createDirectories(root);
+			Files.createDirectories(logs);
+			Files.createDirectories(schueler);
+			Files.createDirectories(exceptions);
+			Files.createDirectories(errors);
+			Files.createDirectories(messages);
+			Files.createDirectories(assets);
+			Files.createDirectories(versions);
+			
+			Files.createFile(standardPackage);
+		}catch(IOException e) {
+			return;
+		}
+		
+		InputStream standardPackStream = PackLoader.loadStandart("standardPack.zip");
+		try {
+			Files.copy(standardPackStream, standardPackage, StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			writeException(e);
 		}
+		
 	}
 	
 	public void saveNewSchueler() throws SchuelerException {
-		File f = new File(schueler.getAbsolutePath() + "\\" + Main.schueler.getName() + ".schueler");
-		if(f.exists()) throw new SchuelerException("Schueler name already exists: " + Main.schueler.getName());
+		Path p = schueler.resolve(Main.schueler.getName() + ".schueler");
+		if(Files.exists(p)) throw new SchuelerException("Schueler name already exists: " + Main.schueler.getName());
 		saveSchueler();
 	}
 	
-	public void saveSchueler() throws SchuelerException{
-		File f = new File(schueler.getAbsolutePath() + "\\" + Main.schueler.getName() + ".schueler");
-		try {
-			f.createNewFile();
+	public void saveSchueler(){
+		new Thread() {
 			
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(bos);
-			oos.writeObject(Main.schueler);
-			oos.flush();
-			bos.flush();
-			byte[] coded = Cryptograph.code(bos.toByteArray());
-			oos.close();
-			bos.close();
-			
-			FileOutputStream fos = new FileOutputStream(f);
-			fos.write(coded);
-			fos.flush();
-			fos.close();
-		}catch(Exception e) {
-			writeException(e);
-			throw new SchuelerException("Failed to save schueler: " +e.getLocalizedMessage());
-		}
+			@Override
+			public void run() {
+				Path p = schueler.resolve(Main.schueler.getName() + ".schueler");
+				try {
+					Files.createFile(p);
+					
+					ByteArrayOutputStream bos = new ByteArrayOutputStream();
+					ObjectOutputStream oos = new ObjectOutputStream(bos);
+					oos.writeObject(Main.schueler);
+					oos.flush();
+					bos.flush();
+					byte[] coded = Cryptograph.code(bos.toByteArray());
+					oos.close();
+					bos.close();
+					
+					Files.write(p, coded, StandardOpenOption.WRITE);
+				}catch(Exception e) {
+					writeException(e);
+				}
+			};
+		}.start();
 	}
 	
 	public Schueler loadSchueler(String name) throws SchuelerException {
-		File f = new File(schueler.getAbsolutePath() + "\\" + name + ".schueler");
-		if(!f.exists()) throw new SchuelerException("Schueler doesn't exsist: " + f.getAbsolutePath());
+		Path p = schueler.resolve(name + ".schueler");
+		if(!Files.exists(p)) throw new SchuelerException("Schueler doesn't exsist: " + p.toString());
 		try {
-			FileInputStream fis = new FileInputStream(f);
-			byte[] coded = fis.readAllBytes();
-			fis.close();
 			
-			ByteArrayInputStream bais = new ByteArrayInputStream(Cryptograph.deCode(coded));
+			byte[] all = Files.readAllBytes(p);
+			
+			ByteArrayInputStream bais = new ByteArrayInputStream(Cryptograph.deCode(all));
 			ObjectInputStream ois = new ObjectInputStream(bais);
 			Schueler s = (Schueler) ois.readObject();
 			ois.close();
@@ -128,93 +132,72 @@ public class Workspace {
 			
 		}catch(Exception e) {
 			writeException(e);
-			throw new SchuelerException("Failed to load " + f.getAbsolutePath());
+			throw new SchuelerException("Failed to load " + p.toString());
 		}
 	}
 	
-	public boolean saveMessage(TitledMessage m) {
-		File f = new File(messages.getAbsolutePath() + "\\" + m.title + ".message");
-		try {
-			f.createNewFile();
-			FileWriter fw = new FileWriter(f);
-			fw.write(m.text);
-			fw.flush();
-			fw.close();
-			return true;
-		} catch (IOException e) {
-			return false;
-		}
+	public void saveMessage(TitledMessage m) {
+		new Thread() {
+			@Override
+			public void run() {
+				Path p = messages.resolve(m.title + ".message");
+				try {
+					Files.write(p, m.text.getBytes(), StandardOpenOption.WRITE);
+				} catch (IOException e) {
+					writeException(e);
+				}
+			}
+		}.start();
 	}
 
-	public void loadTexturePack(ZipFile zf) {
-		Enumeration<? extends ZipEntry> enu = zf.entries();
-		while(enu.hasMoreElements()) {
-			ZipEntry ze = enu.nextElement();
-			InputStream is;
-			try {
-				is = zf.getInputStream(ze);
-			} catch (IOException e) {
-				writeException(e);
-				continue;
-			}
-						
-			if(ze.getName().equalsIgnoreCase("menuButton_hintergrund.png")) {
-				menuButton_hintergrund = new Image(is);
-			}else if(ze.getName().equalsIgnoreCase("menuButton_hintergrund_ausgewaehlt.png")) {
-				menuButton_hintergrund_ausgewählt = new Image(is);
-			}else if(ze.getName().equalsIgnoreCase("menuButton_hintergrund_gedrueckt.png")) {
-				menuButton_hintergrund_gedrückt = new Image(is);
-			}
-		}
+	public void loadTexturePack(FileSystem fs) {
 
 	}
 	
 	public void writeException(Throwable th){
-		writeThrowable(th, new File(exceptions.getAbsolutePath() + "\\" + getActualTime() + ".exception"));
+		writeThrowable(th, exceptions.resolve(getActualTime() + ".exception"));
 	}
 
 	public void writeError(Throwable th){
-		writeThrowable(th, new File(errors.getAbsolutePath() + "\\" + getActualTime() + ".error"));
+		writeThrowable(th, errors.resolve(getActualTime() + ".error"));;
 	}
 	
 	//static
 	
-	private static void writeThrowable(Throwable th, File f) {
-		try {
-			f.createNewFile();
-		} catch (IOException e1) {
-			return;
-		}
-		PrintWriter pw = null;
-		try {
-			pw = new PrintWriter(f);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return;
-		}
-		pw.println(th.getClass().getSimpleName() +" caused at " + getActualTime());
-		pw.println();
-		pw.println();
-		pw.println("Message: " + th.getMessage());
-		pw.println("Localized Message: " +th.getLocalizedMessage());
-		pw.println("Cause: " +(th.getCause() == null ? "unbekannt" : th.getCause()));
-		pw.println("String representation: " + th.toString());
-		pw.println("Class infos: " + th.getClass().toString());
-		pw.println();
-		pw.println();
-		pw.println("Stacktrace:");
-		pw.println();
-		th.printStackTrace(pw);
-		pw.println();
-		pw.println();
-		pw.println("Supressed Throwables:");
-		pw.println();
-		for(Throwable t : th.getSuppressed()){
-			t.printStackTrace(pw);
-			pw.println();
-		}
-		pw.flush();
-		pw.close();
+	private static void writeThrowable(Throwable th, Path p) {
+		new Thread() {
+			
+			@Override
+			public void run() {
+				try {
+					Files.createFile(p);
+					PrintWriter pw = new PrintWriter(Files.newOutputStream(p));
+					pw.println(th.getClass().getSimpleName() +" caused at " + getActualTime());
+					pw.println();
+					pw.println();
+					pw.println("Message: " + th.getMessage());
+					pw.println("Localized Message: " +th.getLocalizedMessage());
+					pw.println("Cause: " +(th.getCause() == null ? "unbekannt" : th.getCause()));
+					pw.println("String representation: " + th.toString());
+					pw.println("Class infos: " + th.getClass().toString());
+					pw.println();
+					pw.println();
+					pw.println("Stacktrace:");
+					pw.println();
+					th.printStackTrace(pw);
+					pw.println();
+					pw.println();
+					pw.println("Supressed Throwables:");
+					pw.println();
+					for(Throwable t : th.getSuppressed()){
+						t.printStackTrace(pw);
+						pw.println();
+					}
+					pw.flush();
+					pw.close();
+				} catch (IOException e1) {}
+			}
+		}.start();
 	}
 	
 	private static String getActualTime(){

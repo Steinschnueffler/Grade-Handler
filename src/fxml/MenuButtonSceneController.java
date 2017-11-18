@@ -21,7 +21,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import schueler.Fach;
-import schueler.SchuelerException;
 
 public class MenuButtonSceneController {
 
@@ -114,12 +113,7 @@ public class MenuButtonSceneController {
 			mbsc.notenStage.setResizable(false);
 			mbsc.notenStage.setTitle(f.getName() + " - " +Main.schueler.getName() + " - Notenmanager");
 			mbsc.notenStage.setOnCloseRequest(e -> {
-	    		try {
-					Main.workspace.saveSchueler();
-				} catch (SchuelerException ex) {
-					Main.workspace.writeException(ex);
-					Main.showAlert("Can't save schueler", ex);
-				}
+	    	Main.workspace.saveSchueler();
 	    	});
 		
 			return root;

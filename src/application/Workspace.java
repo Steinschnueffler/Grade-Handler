@@ -81,6 +81,13 @@ public class Workspace {
 			writeException(e);
 		}
 		
+		try {
+			FileSystem standardPackFileSystem = FileSystems.newFileSystem(standardPackage, ClassLoader.getSystemClassLoader());
+			loadTexturePack(standardPackFileSystem);
+		} catch (IOException e) {
+			writeException(e);
+		}
+		
 	}
 	
 	public void saveNewSchueler() throws SchuelerException {
@@ -151,7 +158,7 @@ public class Workspace {
 	}
 
 	public void loadTexturePack(FileSystem fs) {
-
+		
 	}
 	
 	public void writeException(Throwable th){
